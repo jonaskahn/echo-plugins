@@ -1,0 +1,29 @@
+from echo_sdk import BasePlugin, BasePluginAgent, PluginMetadata
+
+
+class MyInfoPlugin(BasePlugin):
+    @staticmethod
+    def get_metadata() -> PluginMetadata:
+        """Return plugin metadata."""
+        return PluginMetadata(
+            name="myinfo",
+            version="0.1.0",
+            description="Chatbot - self introduction, information",
+            agent_type="specialized",
+            capabilities=["my_info"],
+            llm_requirements={
+                "provider": "openai",
+                "model": "gpt-4.1",
+                "temperature": 0.1,
+                "max_tokens": 1024,
+            },
+            dependencies=["echo-sdk>=0.1.0,<1.0.0"],
+            sdk_version=">=0.1.0,<1.0.0",
+        )
+
+    @staticmethod
+    def create_agent() -> BasePluginAgent:
+        """Create math agent instance."""
+        from .agent import MyInfoAgent
+
+        return MyInfoAgent(MyInfoPlugin.get_metadata())
